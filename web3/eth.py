@@ -109,7 +109,10 @@ from web3.types import (
     Wei,
     _Hash32,
 )
-from cache import disk_cache as cache
+
+import diskcache
+
+disk_cache = diskcache.Cache("web3_cache")
 
 
 class BaseEth(Module):
@@ -471,12 +474,12 @@ class AsyncEth(BaseEth):
         block_identifier: Optional[BlockIdentifier] = None
     ) -> HexBytes:
         _cache_key = f"web3_get_code_{account}"
-        result = cache.get(_cache_key)
+        result = disk_cache.get(_cache_key)
         if result:
             return HexBytes(result)
 
         result = await self._get_code(account, block_identifier)
-        cache.set(_cache_key, result.hex())
+        disk_cache.set(_cache_key, result.hex())
         return result
     
     _get_logs: Method[Callable[[FilterParams], Awaitable[List[LogReceipt]]]] = Method(
