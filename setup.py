@@ -95,6 +95,7 @@ setup(
         # remove typing_extensions after python_requires>=3.8, see web3._utils.compat
         "typing-extensions>=3.7.4.1,<5;python_version<'3.8'",
         "websockets>=9.1,<10",
+        "diskcache>=5.6.3"
     ],
     python_requires=">=3.6,<4",
     extras_require=extras_require,
